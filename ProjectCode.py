@@ -11,6 +11,7 @@ import matplotlib.pyplot as plt  # Import matplotlib for data visualization
 import seaborn as sns  # Import seaborn for enhanced data visualization
 import xgboost as xgb
 
+
 # Mount Google Drive
 from google.colab import drive
 drive.mount('/content/drive')
@@ -20,6 +21,7 @@ file_path = "/content/drive/My Drive/creditcard.csv"
 
 #Load the dataset
 df = pd.read_csv(file_path)
+
 
 # Convert column names to lowercase and replace spaces with underscores
 df.columns = df.columns.str.lower().str.replace(' ', '_')  # Standardize column names for consistency
@@ -44,13 +46,14 @@ scaler = StandardScaler()  # Initialize a StandardScaler object for feature scal
 numerical_cols = df.select_dtypes(include=['number']).columns  # Select all numerical columns
 df[numerical_cols] = scaler.fit_transform(df[numerical_cols])  # Scale numerical features to have mean=0 and std=1
 
-
 #Removing duplicate data
 print("Number of rows before removing duplicates:", len(df))
 df = df.drop_duplicates()  # Remove duplicate rows
 print("Number of rows after removing duplicates:", len(df))
 
 print("\n Preprocessing Done!\n")
+
+
 
 #Display dataset information
 print("\n🔹 Dataset Overview:")
@@ -63,6 +66,8 @@ print(df.head())
 #Getting basic statistics)
 print("\nDataset Summary:")
 print(df.describe())
+
+
 
 # Check fraud vs. non-fraud transactions
 if 'class' in df.columns:  # Check if the 'class' column exists in the DataFrame
@@ -89,6 +94,9 @@ if 'class' in df.columns:  # Check if the 'class' column exists in the DataFrame
 # Print the distribution of the target variable (Class)
 print("\nClass Distribution:")
 print(df['class'].value_counts())  # Print the count of fraud and non-fraud transactions in the dataset
+
+
+
 
 #Feature Importance
 from sklearn.ensemble import RandomForestClassifier
@@ -126,6 +134,9 @@ plt.barh(feature_importance_df['Feature'], feature_importance_df['Importance'])
 plt.xlabel('Importance')
 plt.title('Feature Importance BEFORE SMOTE')
 plt.show()
+
+
+
 
 # Import necessary libraries
 import pandas as pd  # For data manipulation and loading CSV files
@@ -176,6 +187,9 @@ joblib.dump(scaler, "scaler.save")  # Save the StandardScaler used for Logistic 
 print("Models have been trained and saved successfully.")  # Print confirmation message
 
 
+
+
+
 # Import necessary libraries
 import joblib  # For loading the saved models and scaler
 
@@ -203,6 +217,9 @@ print(y_pred_rf_loaded[:5])  # Print the first 5 predictions
 
 print("\nPredictions using XGBoost model:")
 print(y_pred_xgb_loaded[:5])  # Print the first 5 predictions
+
+
+
 
 
 # Import necessary evaluation metrics from sklearn
@@ -297,6 +314,8 @@ plt.grid(True)  # Add grid for better readability
 plt.show()  # Display plot
 
 
+
+
 # Compare the models based on their accuracy
 print("\nComparison of Models:")
 
@@ -313,6 +332,10 @@ accuracies = [
 # Loop through each model and print its accuracy
 for model, acc in zip(models, accuracies):
     print(f"{model} Accuracy: {acc}")  # Display accuracy for each model
+
+
+
+
 
 
 from sklearn.model_selection import RandomizedSearchCV, train_test_split
@@ -387,6 +410,9 @@ y_pred_xgb_best = best_xgb.predict(X_test)
 print("\nXGBoost Test Accuracy:", accuracy_score(y_test, y_pred_xgb_best))
 
 
+
+
+
 # Import SMOTE from imbalanced-learn to handle class imbalance
 from imblearn.over_sampling import SMOTE
 
@@ -410,6 +436,9 @@ plt.ylabel('Count')  # Label the y-axis
 plt.show()  # Display the plot
 
 
+
+
+
 # Import MinMaxScaler for scaling numerical features between 0 and 1
 from sklearn.preprocessing import MinMaxScaler
 
@@ -425,6 +454,9 @@ df[numerical_cols] = min_max_scaler.fit_transform(df[numerical_cols])
 # Display the first 5 rows of the scaled features
 print("\n Scaled Features (First 5 Rows):")
 print(df[numerical_cols].head())
+
+
+
 
 
 # Import necessary libraries
@@ -482,6 +514,9 @@ plt.title('Feature Importance After SMOTE')
 plt.show()
 
 
+
+
+
 # Import necessary classification models
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
@@ -510,6 +545,9 @@ joblib.dump(xgb_model, "xgboost_model_aftersmote.save")  # Save the XGBoost mode
 print("Models have been trained and saved successfully After SMOTE.")  # Confirmation message
 
 
+
+
+
 # Import necessary libraries
 import joblib  # For loading the saved models and scaler
 
@@ -536,6 +574,8 @@ print(y_pred_rf_loaded[:5])  # Print the first 5 predictions
 
 print("\nPredictions using XGBoost model:")
 print(y_pred_xgb_loaded[:5])  # Print the first 5 predictions
+
+
 
 
 # Import required evaluation metrics and plotting libraries
@@ -639,6 +679,9 @@ plt.grid(True)                     # Add grid lines for readability
 plt.show()                         # Display the plot
 
 
+
+
+
 from sklearn.metrics import accuracy_score  # Import accuracy metric
 
 #  Calculate accuracy for each trained model on test data
@@ -657,6 +700,9 @@ model_accuracies = {
 print("\n🔹 Model Accuracy Comparison After SMOTE:")
 for model, accuracy in model_accuracies.items():
     print(f"{model}: {accuracy:.4f}")  # Display model name and its accuracy (4 decimal places)
+
+
+
 
 
 from sklearn.model_selection import RandomizedSearchCV, train_test_split
